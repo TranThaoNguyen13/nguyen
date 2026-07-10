@@ -6,146 +6,96 @@
 <title>pi❤️nguyên</title>
 
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
-overflow:hidden;
-background:radial-gradient(circle,#1a0012,#000);
-width:100vw;
-height:100vh;
-font-family:Arial,sans-serif;
+    overflow:hidden;
+    background:#000;
+    width:100vw;
+    height:100vh;
+    font-family:Arial,sans-serif;
 }
 
 .text{
+    position:absolute;
+    top:-80px;
+    color:#ff5fa2;
+    font-weight:bold;
+    white-space:nowrap;
+    pointer-events:none;
 
-position:absolute;
-top:-120px;
-font-weight:bold;
-color:#ff4da6;
-white-space:nowrap;
-pointer-events:none;
-
-text-shadow:
-0 0 8px #fff,
-0 0 18px #ff4da6,
-0 0 35px #ff0080,
-0 0 60px #ff0080;
-
-animation:fall linear forwards;
-
+    text-shadow:
+        0 0 6px #fff,
+        0 0 12px #ff4da6,
+        0 0 24px #ff4da6;
 }
-
-.heart{
-
-position:absolute;
-top:-80px;
-pointer-events:none;
-animation:fall linear forwards;
-
-filter:drop-shadow(0 0 8px #ff4da6);
-
-}
-
-@keyframes fall{
-
-0%{
-transform:translateY(-120px) rotate(0deg);
-opacity:0;
-}
-
-10%{
-opacity:1;
-}
-
-100%{
-transform:translateY(120vh) rotate(360deg);
-opacity:1;
-}
-
-}
-
 </style>
 
 </head>
-
 <body>
 
 <script>
 
-function createText(){
+const spacing = 120;
+const columns = Math.floor(window.innerWidth / spacing);
 
-const div=document.createElement("div");
+function createDrop(x){
 
-div.className="text";
+    const text = document.createElement("div");
 
-div.innerHTML="pi❤️nguyên";
+    text.className = "text";
+    text.innerHTML = "pi❤️nguyên";
 
-div.style.left=Math.random()*window.innerWidth+"px";
+    text.style.left = x + "px";
+    text.style.fontSize = (28 + Math.random()*10) + "px";
 
-div.style.fontSize=(24+Math.random()*36)+"px";
+    document.body.appendChild(text);
 
-div.style.animationDuration=(4+Math.random()*5)+"s";
+    let y = -80;
 
-div.style.transform=`rotate(${Math.random()*40-20}deg)`;
+    const speed = 1.4 + Math.random()*1.2;
 
-document.body.appendChild(div);
+    function fall(){
 
-setTimeout(()=>{
+        y += speed;
 
-div.remove();
+        text.style.top = y + "px";
 
-},9000);
+        text.style.opacity = 1 - (y/window.innerHeight)*0.15;
 
-}
+        if(y < window.innerHeight + 100){
 
-function createHeart(){
+            requestAnimationFrame(fall);
 
-const heart=document.createElement("div");
+        }else{
 
-heart.className="heart";
+            text.remove();
 
-heart.innerHTML=["❤️","💖","💕","💗"][Math.floor(Math.random()*4)];
+        }
 
-heart.style.left=Math.random()*window.innerWidth+"px";
+    }
 
-heart.style.fontSize=(20+Math.random()*30)+"px";
-
-heart.style.animationDuration=(4+Math.random()*5)+"s";
-
-document.body.appendChild(heart);
-
-setTimeout(()=>{
-
-heart.remove();
-
-},9000);
+    fall();
 
 }
 
-// Hiệu ứng ban đầu
+for(let i=0;i<columns;i++){
 
-for(let i=0;i<180;i++){
+    setTimeout(()=>{
 
-setTimeout(createText,i*35);
+        setInterval(()=>{
+
+            createDrop(i*spacing + Math.random()*25);
+
+        },900);
+
+    },Math.random()*900);
 
 }
-
-for(let i=0;i<100;i++){
-
-setTimeout(createHeart,i*60);
-
-}
-
-// Hiệu ứng liên tục
-
-setInterval(createText,40);
-
-setInterval(createHeart,120);
 
 </script>
 
